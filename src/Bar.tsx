@@ -1,11 +1,11 @@
-import {CSSProperties} from "react";
+import {SerializedStyles} from "@emotion/react";
 
 interface BarProps {
   data?: number;
   barHeight: number;
-  barStyles?: CSSProperties;
-  barsElementsStyles?: CSSProperties;
-  barsHiddenElementsStyles?: CSSProperties;
+  barStyles?: SerializedStyles;
+  barsElementsStyles?: SerializedStyles;
+  barsHiddenElementsStyles?: SerializedStyles;
 }
 
 const Bar = ({ data, barHeight, barStyles, barsElementsStyles, barsHiddenElementsStyles }: BarProps) => {
@@ -17,11 +17,11 @@ const Bar = ({ data, barHeight, barStyles, barsElementsStyles, barsHiddenElement
   const barsElementsCount = barHeight * data;
 
   return (
-    <div className="bar" style={barStyles}>
+    <div className="bar" css={barStyles}>
       {[...Array(barHeight)].map((_, key) => {
         const show = key < barsElementsCount;
         return(
-          <div key={key} style={show? barsElementsStyles : barsHiddenElementsStyles}/>
+          <div key={key} css={show? barsElementsStyles : barsHiddenElementsStyles}/>
         )
       })}
     </div>

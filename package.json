@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@types/javascript-color-gradient": "^2.4.2",
+    "javascript-color-gradient": "^2.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

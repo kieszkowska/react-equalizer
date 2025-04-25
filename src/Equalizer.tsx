@@ -1,60 +1,47 @@
 import Bar from "./Bar.tsx";
-import {CSSProperties} from "react";
+import getStyles from "./getStyles.ts";
+import {SerializedStyles} from "@emotion/react";
 
 interface EqualizerProps {
   data?: number[];
   barHeight?: number;
-  containerStyles?: CSSProperties;
-  barStyles?: CSSProperties;
-  barsElementsStyles?: CSSProperties;
-  barsHiddenElementsStyles?: CSSProperties;
-}
-
-const defaultContainerStyles: CSSProperties = {
-  display: "flex"
-}
-
-const defaultBarStyles: CSSProperties = {
-  display: "flex",
-  flexDirection: "column-reverse"
-}
-
-const defaultBarsElementsStyles: CSSProperties = {
-  backgroundColor: "#007bff",
-  width: "40px",
-  height: "10px",
-  margin: "3px",
-}
-
-const defaultBarsHiddenElementsStyles: CSSProperties = {
-  ...defaultBarStyles,
-  background: "transparent",
+  customStyles?: {
+    container?: SerializedStyles;
+    bar?: SerializedStyles;
+    barsElements?: SerializedStyles;
+    barsHiddenElements?: SerializedStyles;
+  },
+  variant?: "solid" | "tricolor" | "gradient";
+  shape?: "rectangle" | "circle";
+  color?: string;
+  colors?: string[];
+  sections?: number[];
 }
 
 const Equalizer = ({
   data,
   barHeight = 10,
-  containerStyles,
-  barStyles,
-  barsElementsStyles,
-  barsHiddenElementsStyles,
+  shape = "rectangle",
+  variant = "solid",
+  sections = [0, 3, 7],
+  ...restProps
 }: EqualizerProps) => {
   if (!data || data.length === 0) {
     console.error('react-equalizer: Data is empty');
     return <div/>;
   }
 
+  const {containerStyles, ...rest} = getStyles({shape, variant, sections, barHeight, ...restProps});
+
   return (
-    <div className="container" style={{...defaultContainerStyles, ...containerStyles}}>
+    <div className="container" css={containerStyles}>
       {data.map((value, index) => {
         return (
           <Bar
             barHeight={barHeight}
-            barStyles={{...defaultBarStyles, ...barStyles}}
-            barsElementsStyles={{...defaultBarsElementsStyles, ...barsElementsStyles}}
-            barsHiddenElementsStyles={{...defaultBarsHiddenElementsStyles, ...barsHiddenElementsStyles}}
             data={value}
             key={index}
+            {...rest}
           />
         )
       })}
